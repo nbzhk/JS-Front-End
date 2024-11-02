@@ -18,8 +18,6 @@ function sortingNumbers(arr) {
         j--;
     }
 
-
-    console.log(result)
     return result;
 }
 
