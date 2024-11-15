@@ -13,8 +13,7 @@ function storeProvision(stock, orders) {
 
     for (const product in storage) {
         console.log(`${product} -> ${storage[product]}`);
-    };
-    
+    }
 
 }
 
