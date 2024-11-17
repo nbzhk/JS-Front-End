@@ -4,8 +4,6 @@ function pascalCase(string) {
 
     let wordsArr = string.match(regex);
 
-    
-
     console.log(wordsArr.join(', '))
 
 }
