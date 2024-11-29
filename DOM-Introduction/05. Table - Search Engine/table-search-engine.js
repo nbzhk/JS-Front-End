@@ -1,6 +1,6 @@
 function solve() {
     const searchedStr = document.querySelector('#searchField').value.toLowerCase().trim();
-    const students = document.querySelectorAll('table tr tbody');
+    const students = document.querySelectorAll('table tbody tr');
 
     if (searchedStr === '') return;
 
