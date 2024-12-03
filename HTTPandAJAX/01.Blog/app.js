@@ -11,6 +11,8 @@ function attachEvents() {
 
 
     loadButtonEl.addEventListener('click', () => {
+        selectPostEl.innerHTML = '';
+
         fetch(postsURL)
             .then(response => response.json())
             .then(data => {
@@ -44,6 +46,7 @@ function attachEvents() {
                        liElement.value = comment.id;
                        liElement.textContent = comment.text;
 
+                       postCommentsEl.innerHTML = '';
                        postCommentsEl.appendChild(liElement);
                    })
             });
