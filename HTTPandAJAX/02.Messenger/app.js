@@ -26,9 +26,14 @@ function attachEvents() {
     });
 
     function displayMessages(data) {
-        Object.values(data).forEach((msg) => {
-            console.log(msg);
-            messagesEl.textContent += `${msg.author}: ${msg.content}\n`;
+        const msgArr = Object.values(data);
+        msgArr.forEach((msg, index) => {
+            messagesEl.textContent += `${msg.author}: ${msg.content}`;
+
+            if (index < msgArr.length - 1) {
+                messagesEl.textContent += `\n`;
+            }
+
         });
     }
 }
