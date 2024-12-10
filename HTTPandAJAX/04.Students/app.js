@@ -26,21 +26,22 @@ function attachEvents() {
                 facultyNumber: facultyNumber,
                 grade: grade,
             }
-            console.log(newStudent);
-            students.push(newStudent);
-            console.log(students);
 
+            students.push(newStudent);
 
             firstNameEl.value = '';
             lastNameEl.value = '';
             facultyNumberEl.value = '';
             gradeEl.value = '';
+
+            load()
         }
     }
 
-    submitBtnEl.addEventListener('click', extractStudents);
+    document.addEventListener('DOMContentLoaded', extractStudents);
 
     function extractStudents() {
+
         fetch(BASE_URL)
             .then(response => response.json())
             .then(data => {
@@ -50,7 +51,6 @@ function attachEvents() {
             })
     }
 
-    submitBtnEl.addEventListener('click', load)
 
     function load() {
         students.forEach(student => {
