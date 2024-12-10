@@ -2,14 +2,12 @@ function attachEvents() {
     const BASE_URL = 'http://localhost:3030/jsonstore/collections/students';
 
     const submitBtnEl = document.getElementById('submit');
-    const tableEL = document.querySelector('#results tbody');
+    const tableBodyEL = document.querySelector('#results tbody');
 
     const firstNameEl = document.querySelector('input[name="firstName"]');
     const lastNameEl = document.querySelector('input[name="lastName"]');
     const facultyNumberEl = document.querySelector('input[name="facultyNumber"]');
     const gradeEl = document.querySelector('input[name="grade"]');
-
-    const students = [];
 
     submitBtnEl.addEventListener('click', createStudent)
 
@@ -20,62 +18,58 @@ function attachEvents() {
             let facultyNumber = facultyNumberEl.value.trim();
             let grade = gradeEl.value.trim();
 
-            const newStudent = {
-                firstName: firstName,
-                lastName: lastName,
-                facultyNumber: facultyNumber,
-                grade: grade,
-            }
 
-            students.push(newStudent);
+            fetch(BASE_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    firstName,
+                    lastName,
+                    facultyNumber,
+                    grade,
+                })
+            })
+                .then(response => response.json())
+                .then(() => {
+                    firstNameEl.value = '';
+                    lastNameEl.value = '';
+                    facultyNumberEl.value = '';
+                    gradeEl.value = '';
 
-            firstNameEl.value = '';
-            lastNameEl.value = '';
-            facultyNumberEl.value = '';
-            gradeEl.value = '';
-
-            load()
+                    fetchStudents();
+                })
         }
     }
 
-    document.addEventListener('DOMContentLoaded', extractStudents);
-
-    function extractStudents() {
-
+    function fetchStudents() {
+        tableBodyEL.innerHTML = '';
         fetch(BASE_URL)
             .then(response => response.json())
             .then(data => {
                 Object.values(data).forEach((student) => {
-                    students.push(student);
+                    appendStudent(student);
                 });
             })
     }
 
+    function appendStudent(student) {
+        const trElement = document.createElement('tr');
 
-    function load() {
-        students.forEach(student => {
-            const rowElement = document.createElement('tr');
-            const firstNameCell = document.createElement('td');
-            const lastNameCell = document.createElement('td');
-            const facultyCell = document.createElement('td');
-            const gradeCell = document.createElement('td');
+        Object.keys(student)
+            .filter((key) => key !== '_id')
+            .forEach((key) => {
+                const tdElement = document.createElement('td');
+                tdElement.textContent = student[key];
 
-            firstNameCell.textContent = student.firstName;
-            lastNameCell.textContent = student.lastName;
-            facultyCell.textContent = student.facultyNumber;
-            gradeCell.textContent = student.grade;
+                trElement.appendChild(tdElement);
+            });
 
-            rowElement.appendChild(firstNameCell);
-            rowElement.appendChild(lastNameCell);
-            rowElement.appendChild(facultyCell);
-            rowElement.appendChild(gradeCell);
-
-            console.log(rowElement)
-
-            tableEL.appendChild(rowElement);
-        })
+        tableBodyEL.appendChild(trElement);
     }
 
+    fetchStudents();
 }
 
 attachEvents();
