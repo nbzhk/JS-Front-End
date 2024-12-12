@@ -36,7 +36,12 @@ function solve() {
     editButtonElement.textContent = `Edit`;
     editButtonElement.classList.add('edit-btn');
 
+    editButtonElement.addEventListener('click', () => {
 
+      liElement.remove();
+
+      edit(type, age, gender)
+    });
 
     const doneButtonElement = document.createElement('button');
     doneButtonElement.textContent = `Done`;
@@ -67,13 +72,6 @@ function solve() {
     const liElement = document.createElement('li');
     liElement.appendChild(articleElement);
     liElement.appendChild(buttonsDivElement);
-
-    editButtonElement.addEventListener('click', () => {
-
-      edit(type, age, gender)
-
-      adoptInfoElement.removeChild(liElement);
-    });
 
     resetInputValues();
 

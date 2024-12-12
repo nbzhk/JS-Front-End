@@ -105,6 +105,10 @@ function solve() {
                         })
 
                         await getAllGames();
+
+                       formElement.removeAttribute('data-game-id');
+                       editBtn.disabled = true;
+                       addBtn.disabled = false;
                     })
 
 
